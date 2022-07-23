@@ -1,24 +1,22 @@
 import os
 import os.path
-data = []
-len_dict = {}
-files = ['1.txt', '2.txt']
-for file in files:
-    print(file)
-    with open(file) as file1:
-        data = len(file1.readlines())
-        name1 = os.path.basename(file1.name)
-        len_dict[name1]=data
-        
-max_val = (max(len_dict, key=len_dict.get))
-min_val = (min(len_dict, key=len_dict.get))
+import glob
 
-with open(max_val) as file2:
-    data1 = file2.read()
-    with open('3.txt', 'a') as file3:
-        file3.write(f'{max_val}\n{len_dict[max_val]}\n{data1}\n')
 
-with open(min_val) as file2:
-    data1 = file2.read()
-    with open('3.txt', 'a') as file3:
-        file3.write(f'{max_val}\n{len_dict[min_val]}\n{data1} ')
+dict_txt = {}
+for filename in glob.glob('*.txt'):
+   with open(os.path.join(os.getcwd(), filename), 'r') as f:
+       text = f.read() 
+       f.close()
+       with open(os.path.join(os.getcwd(), filename), 'r') as f:
+            data = len(f.readlines())
+            dict_txt[filename] = [data, text]
+
+sorted_dict = dict(sorted(dict_txt.items()))
+
+
+with open('3.txt', 'a') as f:
+    for text in sorted_dict.items():
+        f.write(f'{text[0]}\n')
+        f.write(f'{text[1][0]}\n')
+        f.write(f'{text[1][1]}\n')
